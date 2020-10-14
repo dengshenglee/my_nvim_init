@@ -1,3 +1,9 @@
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+	silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 let mapleader = " "
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -155,7 +161,9 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 "termianl
-noremap <space>/ :sp<CR>:res -10<CR>:term<CR>
+" noremap <space>/ :sp<CR>:res -10<CR>:term<CR>
+noremap <LEADER>/ :set splitbelow<CR>:split<CR>:res +10<CR>:term<CR>
+"ctrl-w N 滚动终端，i，a 恢复正常模式
 "nmap <silent> <space>/ <Plug>(coc-terminal-toggle)
 
 "--------clangd-----------
@@ -284,6 +292,7 @@ map <right> :vertical resize+5<CR>
 
 "--------tabs----------
 map ot :tabe<CR>
+map ct :tabc<CR>
 map th :-tabnext<CR>
 map tl :+tabnext<CR>
 " Move the tabs with tmn and tmi
@@ -335,9 +344,9 @@ func! CompileRunGcc()
 		exec "!time ./%<"
 	elseif &filetype == 'cpp'
 		set splitbelow
-		exec "!g++ -std=c++11 % -Wall -o %<"
+		exec "!g++ -std=c++14 % -Wall -o %<"
 		:sp
-		:res -15
+		:res -5
 		:term ./%<
 	elseif &filetype == 'java'
 		exec "!javac %"
